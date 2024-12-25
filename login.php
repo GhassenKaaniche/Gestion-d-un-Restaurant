@@ -1,5 +1,7 @@
 <?php
 session_start();
+$message = ""; // Variable pour stocker le message d'erreur
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nom = $_POST['nom'];
     $mot_de_passe = $_POST['mot_de_passe'];
@@ -19,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['admin'] = $nom;
         header('Location: admin.php');
     } else {
-        echo "Nom ou mot de passe incorrect";
+        $message = "Nom ou mot de passe incorrect";
     }
     $conn->close();
 }
@@ -95,12 +97,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             background-color: #e26b20;
         }
 
-        .form-title span {
-            width: 50px;
-            height: 3px;
-            background-color: #ff7e29;
-            display: block;
-            margin: 0 auto;
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -110,9 +110,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         Nom: <input type="text" name="nom" required><br>
         Mot de passe: <input type="password" name="mot_de_passe" required><br>
         <input type="submit" value="Se connecter">
+        <?php if ($message): ?>
+            <p class="error-message"><?php echo $message; ?></p>
+        <?php endif; ?>
     </form>
 </body>
 </html>
+
+
+
+
+
 
 
 
